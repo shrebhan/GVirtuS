@@ -60,6 +60,7 @@ void Backend::Start() {
   //   << std::this_thread::get_id() << "]: Finished.");
   // };
 
+// start process
   int pid = 0;
   for (int i = 0; i < _children.size(); i++) {
     if ((pid = fork()) == 0) {
