@@ -176,10 +176,15 @@ void Frontend::Execute(const char *routine, const Buffer *input_buffer) {
     auto frontend = mpFrontends->find(tid)->second;
     frontend->mRoutinesExecuted++;
     auto start = steady_clock::now();
+
+    //add to Q
     frontend->_communicator->obj_ptr()->Write(routine, strlen(routine) + 1);
+    
     frontend->mDataSent += input_buffer->GetBufferSize();
     input_buffer->Dump(frontend->_communicator->obj_ptr().get());
+    
     frontend->_communicator->obj_ptr()->Sync();
+    //poll
     frontend->mSendingTime += std::chrono::duration_cast<std::chrono::milliseconds>(steady_clock::now() - start)
         .count() / 1000.0;
     frontend->mpOutputBuffer->Reset();

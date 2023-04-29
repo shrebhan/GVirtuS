@@ -5,6 +5,7 @@
 #include <memory>
 #include <utility>
 #include <vector>
+#include <unordered_set>
 #include <stdlib.h> /* getenv */
 #include "Communicator.h"
 #include "Endpoint.h"
@@ -16,22 +17,20 @@ class CommunicatorFactory {
   static std::shared_ptr<
       common::LD_Lib<Communicator, std::shared_ptr<Endpoint>>>
   get_communicator(std::shared_ptr<Endpoint> end, bool secure = false) {
+    
     std::shared_ptr<common::LD_Lib<Communicator, std::shared_ptr<Endpoint>>> dl;
-
     std::string gvirtus_home = CommunicatorFactory::getGVirtuSHome();
+    std::unordered_set<string> protocols {"tcp", "oldtcp", "http", "ws", "rdma", "roce"};
 
     if (!secure) {
-      if (end->protocol() == "tcp" || end->protocol() == "http" ||
-          end->protocol() == "oldtcp" ||
-          end->protocol() == "ws") {  // an array with supported communicators
-                                      // is better and elegant
+      if (protocols.find(end->protocol) =! protocols.end()) {
         dl = std::make_shared<
             common::LD_Lib<Communicator, std::shared_ptr<Endpoint>>>(
             gvirtus_home + "/lib/libgvirtus-communicators-" +
                 end->protocol() + ".so",
             "create_communicator");
       } else
-        throw std::runtime_error("Unsecure communicator not supported");
+        throw std::runtime_error("Given unsecure communicator not supported");
     } else if (end->protocol() == "https" ||
                end->protocol() == "wss") {  // in secure supported
       dl = std::make_shared<
@@ -40,7 +39,7 @@ class CommunicatorFactory {
               end->protocol() + ".so",
           "create_communicator");
     } else {
-      throw std::runtime_error("Secure communicator not supported");
+      throw std::runtime_error("Given secure communicator not supported");
     }
 
     dl->build_obj(end);
