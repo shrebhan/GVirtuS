@@ -54,6 +54,13 @@ bool getstring(Communicator *c, string &s) {
   }
   return false;
 }
+//temporary
+bool getmessage(Communicator *c, string &s){
+  char* msg;
+  c->Read(msg, 25);
+  s = msg;
+  return true;
+}
 
 extern std::string getEnvVar(std::string const &key);
 
@@ -76,9 +83,11 @@ void Process::Start() {
     }
   });
 
-  // inserisci i sym dei plugin in h
+  // 
+  // put the sym of the plugins in h
   std::function<void(Communicator *)> execute = [=](Communicator *client_comm) {
-    // carica i puntatori ai simboli dei moduli in mHandlers
+    //
+    //loads pointers to module symbols in mHandlers
 
     string routine;
     std::shared_ptr<Buffer> input_buffer = std::make_shared<Buffer>();
@@ -109,16 +118,17 @@ void Process::Start() {
         result = h->Execute(routine, input_buffer);
         result->TimeTaken(std::chrono::duration_cast<std::chrono::milliseconds>(steady_clock::now() - start)
             .count() / 1000.0);
-        // esegue la routine e salva il risultato in result
+        
+        //runs the routine and saves the result in result
       }
 
-      // scrive il risultato sul communicator
-      //
+      
+      // writes the result to the communicator
       result->Dump(client_comm);
       if (result->GetExitCode() != 0 && routine.compare("cudaLaunch")) {
-        LOG4CPLUS_DEBUG(logger, "✓ - [Process " << getpid() << "]: Requested '"
+        LOG4CPLUS_INFO(logger, "✓ - [Process " << getpid() << "]: Requested '"
                                                 << routine << "' routine.");
-        LOG4CPLUS_DEBUG(logger, "✓ - - [Process "
+        LOG4CPLUS_INFO(logger, "✓ - - [Process "
                                     << getpid() << "]: Exit Code '"
                                     << result->GetExitCode() << "'.");
       }
@@ -136,8 +146,11 @@ void Process::Start() {
   while (true) {
     Communicator *client =
         const_cast<Communicator *>(_communicator->obj_ptr()->Accept());
+    
+    client = _communicator->obj_ptr().get(); // added for rdma - accept doesn't return anything
 
     if (client != nullptr) {
+      //sending _communicator instead of client here ???
       //      if ((pid = fork()) == 0) {
       std::thread(execute, client).detach();
       //        exit(0);

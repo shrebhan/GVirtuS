@@ -18,6 +18,9 @@ class EndpointFactory {
     if ("tcp/ip" == j["communicator"][ind_endpoint]["endpoint"].at("suite")) {
       auto end = common::JSON<Endpoint_Tcp>(json_path).parser();
       ptr = std::make_shared<Endpoint_Tcp>(end);
+    } else if ("rdma" == j["communicator"][ind_endpoint]["endpoint"].at("suite")) {
+      auto end = common::JSON<Endpoint_Rdma>(json_path).parser();
+      ptr = std::make_shared<Endpoint_Rdma>(end);
     }
 
     ind_endpoint++;

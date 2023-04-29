@@ -33,7 +33,7 @@ Backend::Backend(const fs::path &path) {
     if (_properties.endpoints() > 1) {
       LOG4CPLUS_INFO(logger, "🛈  - Application serves on "
                                  << _properties.endpoints()
-                                 << " several endpoint");
+                                 << " several endpoints");
     }
 
     for (int i = 0; i < _properties.endpoints(); i++) {

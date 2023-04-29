@@ -2,7 +2,7 @@
 
 /**
  * @file   RdmaCommunicator.h
- * @author Shreya Bhandare <shreyabhandare25@gmail.com>
+ * @author Shreya Bhandare <shreyabhandare@vt.edu, shreyabhandare25@gmail.com>
  * @date   
  *
  * @brief
@@ -19,6 +19,13 @@
 #endif
 
 #include "gvirtus/communicators/Communicator.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
+#include <getopt.h>
+#include <netdb.h>
+#include <librdmacmcpp.h>
 
 namespace gvirtus::communicators {
 /**
@@ -27,35 +34,41 @@ namespace gvirtus::communicators {
 class RdmaCommunicator : public Communicator {
  public:
   RdmaCommunicator() = default;
-  RdmaCommunicator(const std::string &communicator);
+  //RdmaCommunicator(const std::string &communicator);
   RdmaCommunicator(const char *hostname, short port);
-  RdmaCommunicator(int fd, const char *hostname);
+  //RdmaCommunicator(int fd, const char *hostname);
+
   virtual ~RdmaCommunicator();
+
   void Serve();
   const Communicator *const Accept() const;
+
   void Connect();
   size_t Read(char *buffer, size_t size);
   size_t Write(const char *buffer, size_t size);
+
+
+
   void Sync();
   void Close();
 
   std::string to_string() override { return "Rdmacommunicator"; }
 
  private:
-  void InitializeStream();
-  std::istream *mpInput;
-  std::ostream *mpOutput;
-  std::string mHostname;
+
   char *mInAddr;
-  int mInAddrSize;
-  short mPort;
-  int mSocketFd;
-#ifdef _WIN32
-  std::filebuf *mpInputBuf;
-  std::filebuf *mpOutputBuf;
-#else
-  __gnu_cxx::stdio_filebuf<char> *mpInputBuf;
-  __gnu_cxx::stdio_filebuf<char> *mpOutputBuf;
-#endif
+  char *mPortNo;
+
+  //rdma structures 
+  struct rdma_addrinfo hints;
+
+	ibv::workcompletion::WorkCompletion wc;
+	bool inlineFlag = false;
+  //std::unique_ptr<ibv::memoryregion::MemoryRegion> send_mr; 
+  //std::unique_ptr<ibv::memoryregion::MemoryRegion> recv_mr;
+  std::unique_ptr<rdma::ID> id;
+  ibv::queuepair::QueuePair* qp;
+
+
 };
 }  // namespace gvirtus::communicators
