@@ -148,7 +148,7 @@ const gvirtus::communicators::Communicator *const RdmaCommunicator::Accept()
 
 void RdmaCommunicator::Connect() {
     ibv::queuepair::InitAttributes attr;
-    const char *serverip = "192.168.0.11";
+    const char *serverip = "192.168.0.27";
     const char *portnum = "8888"; 
     auto res = rdma::addrinfo::get(serverip, portnum, &hints);
     memset(&attr, 0, sizeof(attr));
