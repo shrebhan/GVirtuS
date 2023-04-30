@@ -44,6 +44,7 @@ add_library(gvirtus-communicators SHARED
         src/communicators/Buffer.cpp
         src/communicators/CommunicatorFactory.cpp
         src/communicators/Endpoint_Tcp.cpp
+	src/communicators/Endpoint_Rdma.cpp
         src/communicators/EndpointFactory.cpp
         src/communicators/Result.cpp)
 target_link_libraries(gvirtus-communicators gvirtus-common)
@@ -53,6 +54,14 @@ add_library(gvirtus-communicators-tcp SHARED
         src/communicators/tcp/TcpCommunicator.cpp)
 target_link_libraries(gvirtus-communicators-tcp gvirtus-communicators)
 gvirtus_install_target(gvirtus-communicators-tcp)
+
+include_directories(../libibverbscpp)
+
+add_library(gvirtus-communicators-rdma SHARED
+	src/communicators/rdma/RdmaCommunicator.cpp)
+target_link_libraries(gvirtus-communicators-rdma ibverbs rdmacm)
+target_link_libraries(gvirtus-communicators-rdma gvirtus-communicators)
+gvirtus_install_target(gvirtus-communicators-rdma)
 
 add_library(gvirtus-frontend SHARED
         src/frontend/Frontend.cpp)

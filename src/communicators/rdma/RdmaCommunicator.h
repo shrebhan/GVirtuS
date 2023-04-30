@@ -34,7 +34,7 @@ namespace gvirtus::communicators {
 class RdmaCommunicator : public Communicator {
  public:
   RdmaCommunicator() = default;
-  //RdmaCommunicator(const std::string &communicator);
+  RdmaCommunicator(const std::string &communicator);
   RdmaCommunicator(const char *hostname, short port);
   //RdmaCommunicator(int fd, const char *hostname);
 

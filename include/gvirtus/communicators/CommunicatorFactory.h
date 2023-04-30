@@ -10,6 +10,8 @@
 #include "Communicator.h"
 #include "Endpoint.h"
 #include "Endpoint_Tcp.h"
+#include "Endpoint_Rdma.h"
+#include <string>
 
 namespace gvirtus::communicators {
 class CommunicatorFactory {
@@ -20,10 +22,10 @@ class CommunicatorFactory {
     
     std::shared_ptr<common::LD_Lib<Communicator, std::shared_ptr<Endpoint>>> dl;
     std::string gvirtus_home = CommunicatorFactory::getGVirtuSHome();
-    std::unordered_set<string> protocols {"tcp", "oldtcp", "http", "ws", "rdma", "roce"};
+    std::unordered_set<std::string> protocols {"tcp", "oldtcp", "http", "ws", "rdma", "roce"};
 
     if (!secure) {
-      if (protocols.find(end->protocol) =! protocols.end()) {
+      if (protocols.find(end->protocol()) != protocols.end()) {
         dl = std::make_shared<
             common::LD_Lib<Communicator, std::shared_ptr<Endpoint>>>(
             gvirtus_home + "/lib/libgvirtus-communicators-" +

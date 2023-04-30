@@ -5,6 +5,7 @@
 #include <nlohmann/json.hpp>
 #include "Endpoint.h"
 #include "Endpoint_Tcp.h"
+#include "Endpoint_Rdma.h"
 
 namespace gvirtus::communicators {
 class EndpointFactory {
