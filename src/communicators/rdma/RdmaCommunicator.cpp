@@ -78,6 +78,7 @@ if (ent == NULL){
 int mInAddrSize = ent->h_length;
 mInAddr = new char[mInAddrSize];
 memcpy(mInAddr, *ent->h_addr_list, mInAddrSize);
+
 }
 
 RdmaCommunicator::RdmaCommunicator(const char *hostname, short port) {
@@ -104,8 +105,9 @@ void RdmaCommunicator::Serve() {
 
     hints.ai_flags = RAI_PASSIVE;
     ibv::queuepair::Attributes qp_attr;
-    
-    auto res = rdma::addrinfo::get(mInAddr, mPortNo, &hints);
+    const char *serverip = "192.168.0.11";
+    const char *portnum = "8888"; 
+    auto res = rdma::addrinfo::get(serverip, portnum, &hints);
 
     ibv::queuepair::InitAttributes init_attr;
 	memset(&init_attr, 0, sizeof init_attr);
@@ -146,7 +148,9 @@ const gvirtus::communicators::Communicator *const RdmaCommunicator::Accept()
 
 void RdmaCommunicator::Connect() {
     ibv::queuepair::InitAttributes attr;
-    auto res = rdma::addrinfo::get(mInAddr, mPortNo, &hints);
+    const char *serverip = "192.168.0.11";
+    const char *portnum = "8888"; 
+    auto res = rdma::addrinfo::get(serverip, portnum, &hints);
     memset(&attr, 0, sizeof(attr));
 
     ibv::queuepair::Capabilities cap;
