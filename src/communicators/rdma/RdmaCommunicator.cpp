@@ -57,28 +57,30 @@ using namespace std;
 using gvirtus::communicators::RdmaCommunicator;
 
 RdmaCommunicator::RdmaCommunicator(const std::string &communicator) {
-const char *valueptr = strstr(communicator.c_str(), "://") + 3;
-const char *portptr = strchr(valueptr, ':');
-if (portptr == NULL) throw "Port not specified.";
+// const char *valueptr = strstr(communicator.c_str(), "://") + 3;
+// const char *portptr = strchr(valueptr, ':');
+// if (portptr == NULL) throw "Port not specified.";
 
-short port = (short)strtol(portptr + 1, NULL, 10);
-mPortNo = new char[sizeof(short)];
-memcpy(mPortNo, &port, sizeof(short));
+// short port = (short)strtol(portptr + 1, NULL, 10);
+// mPortNo = new char[sizeof(short)];
+// memcpy(mPortNo, &port, sizeof(short));
 
-char *hostname = strdup(valueptr);
-hostname[portptr - valueptr] = 0;
-std:string mHostname = string(hostname);
+// char *hostname = strdup(valueptr);
+// hostname[portptr - valueptr] = 0;
+// std:string mHostname = string(hostname);
 
-struct hostent *ent = gethostbyname(hostname);
-free(hostname);
-if (ent == NULL){
-	throw "TcpCommunicator: Can't resolve hostname '" + mHostname + "'.";
-}
+// struct hostent *ent = gethostbyname(hostname);
+// free(hostname);
+// if (ent == NULL){
+// 	throw "TcpCommunicator: Can't resolve hostname '" + mHostname + "'.";
+// }
 
-int mInAddrSize = ent->h_length;
-mInAddr = new char[mInAddrSize];
-memcpy(mInAddr, *ent->h_addr_list, mInAddrSize);
-
+// int mInAddrSize = ent->h_length;
+// mInAddr = new char[mInAddrSize];
+// memcpy(mInAddr, *ent->h_addr_list, mInAddrSize);
+mPortNo = "8888";
+memset(&hints, 0, sizeof hints);
+hints.ai_port_space = RDMA_PS_TCP;
 }
 
 RdmaCommunicator::RdmaCommunicator(const char *hostname, short port) {
