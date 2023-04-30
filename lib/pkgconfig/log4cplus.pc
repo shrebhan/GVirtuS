@@ -1,4 +1,4 @@
-prefix=/root/Virt-Edge/build/external
+prefix=/root/GVirtuS/build/external
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include

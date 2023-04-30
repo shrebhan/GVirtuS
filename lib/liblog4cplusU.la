@@ -17,7 +17,7 @@ old_library=''
 inherited_linker_flags=' -pthread'
 
 # Libraries that this one depends upon.
-dependency_libs=' -L/root/Virt-Edge/build/external/lib/'
+dependency_libs=' -L/root/GVirtuS/build/external/lib/'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''
@@ -38,4 +38,4 @@ dlopen=''
 dlpreopen=''
 
 # Directory that this library needs to be installed in:
-libdir='/root/Virt-Edge/build/external/lib'
+libdir='/root/GVirtuS/build/external/lib'
