@@ -115,8 +115,10 @@ void Frontend::Init(Communicator *c) {
 
   mpFrontends->find(tid)->second->_communicator =
       CommunicatorFactory::get_communicator(end);
+      
   mpFrontends->find(tid)->second->_communicator->obj_ptr()->Connect();
 
+  LOG4CPLUS_INFO(logger, "🛈  - Connected");
 
   mpFrontends->find(tid)->second->mpInputBuffer = std::make_shared<Buffer>();
   mpFrontends->find(tid)->second->mpOutputBuffer = std::make_shared<Buffer>();

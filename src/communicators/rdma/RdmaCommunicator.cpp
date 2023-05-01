@@ -217,7 +217,7 @@ void RdmaCommunicator::Sync() {  }
 extern "C" std::shared_ptr<RdmaCommunicator> create_communicator(
     std::shared_ptr<gvirtus::communicators::Endpoint> end) {
   std::string arg =
-      "Rdma://" +
+      "rdma://" +
       std::dynamic_pointer_cast<gvirtus::communicators::Endpoint_Rdma>(end)
           ->address() +
       ":" +
