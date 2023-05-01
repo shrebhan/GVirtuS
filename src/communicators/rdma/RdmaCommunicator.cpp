@@ -108,7 +108,7 @@ void RdmaCommunicator::Serve() {
     hints.ai_flags = RAI_PASSIVE;
     
     const char *serverip = "192.168.0.11";
-    const char *portnum = "8888"; 
+    const char *portnum = "8000"; 
     auto res = rdma::addrinfo::get(serverip, portnum, &hints);
 
 	memset(&init_attr, 0, sizeof init_attr);
@@ -149,7 +149,7 @@ const gvirtus::communicators::Communicator *const RdmaCommunicator::Accept()
 void RdmaCommunicator::Connect() {
     ibv::queuepair::InitAttributes attr;
     const char *serverip = "192.168.0.27";
-    const char *portnum = "8888"; 
+    const char *portnum = "8000"; 
     auto res = rdma::addrinfo::get(serverip, portnum, &hints);
     memset(&attr, 0, sizeof(attr));
 
