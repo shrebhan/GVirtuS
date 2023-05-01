@@ -63,13 +63,13 @@ class RdmaCommunicator : public Communicator {
   struct rdma_addrinfo hints;
 
 	ibv::workcompletion::WorkCompletion wc;
-	bool inlineFlag = false;
+	mutable bool inlineFlag = false;
   //std::unique_ptr<ibv::memoryregion::MemoryRegion> send_mr; 
   //std::unique_ptr<ibv::memoryregion::MemoryRegion> recv_mr;
-  std::unique_ptr<rdma::ID> id;
+  mutable std::unique_ptr<rdma::ID> id;
   ibv::queuepair::QueuePair* qp;
-  auto listen_id;
-  ibv::queuepair::InitAttributes init_attr;
+  std::unique_ptr<rdma::ID> listen_id;
+  mutable ibv::queuepair::InitAttributes init_attr;;
 
 
 };

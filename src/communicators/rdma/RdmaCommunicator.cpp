@@ -130,7 +130,7 @@ void RdmaCommunicator::Serve() {
 const gvirtus::communicators::Communicator *const RdmaCommunicator::Accept()
     const {
 	id = listen_id->getRequest();
-
+	ibv::queuepair::Attributes qp_attr;
 	memset(&qp_attr, 0, sizeof qp_attr);
 	memset(&init_attr, 0, sizeof init_attr);
 
