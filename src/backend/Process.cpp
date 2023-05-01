@@ -146,7 +146,7 @@ void Process::Start() {
   LOG4CPLUS_INFO(logger, "🛈  - server is listening for requests...");
 
   int pid = 0;
-  while (true) {
+  {
     Communicator *client =
         const_cast<Communicator *>(_communicator->obj_ptr()->Accept());
     LOG4CPLUS_INFO(logger, "🛈  - Connection accepted");
@@ -164,7 +164,7 @@ void Process::Start() {
 
     if (common::SignalState::get_signal_state(SIGINT)) {
       LOG4CPLUS_DEBUG(logger, "✓ - SIGINT received, killing server...");
-      break;
+      
     }
   }
 }
