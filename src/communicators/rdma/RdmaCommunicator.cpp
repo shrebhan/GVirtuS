@@ -123,10 +123,9 @@ void RdmaCommunicator::Serve() {
 
 	init_attr.setCapabilities(cap);
 	init_attr.setSignalAll(1);
-	auto listen_id = rdma::createEP(res, boost::none, boost::make_optional(init_attr));
+	listen_id = rdma::createEP(res, boost::none, boost::make_optional(init_attr));
 	listen_id->listen(0);
-	
-  
+ 
 }
 
 const gvirtus::communicators::Communicator *const RdmaCommunicator::Accept()
