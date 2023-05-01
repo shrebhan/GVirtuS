@@ -69,7 +69,7 @@ class RdmaCommunicator : public Communicator {
   std::unique_ptr<rdma::ID> id;
   ibv::queuepair::QueuePair* qp;
   //std::unique_ptr<rdma::ID> listen_id;
-  //mutable ibv::queuepair::InitAttributes init_attr;;
+  mutable ibv::queuepair::InitAttributes init_attr;;
 
 
 };
