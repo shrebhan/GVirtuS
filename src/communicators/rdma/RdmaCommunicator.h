@@ -68,7 +68,8 @@ class RdmaCommunicator : public Communicator {
   //std::unique_ptr<ibv::memoryregion::MemoryRegion> recv_mr;
   std::unique_ptr<rdma::ID> id;
   ibv::queuepair::QueuePair* qp;
-  std::unique_ptr<ID> listen_id;
+  auto listen_id;
+  ibv::queuepair::InitAttributes init_attr;
 
 
 };

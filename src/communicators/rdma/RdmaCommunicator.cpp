@@ -106,12 +106,11 @@ RdmaCommunicator::~RdmaCommunicator() {
 void RdmaCommunicator::Serve() {
 
     hints.ai_flags = RAI_PASSIVE;
-    ibv::queuepair::Attributes qp_attr;
+    
     const char *serverip = "192.168.0.11";
     const char *portnum = "8888"; 
     auto res = rdma::addrinfo::get(serverip, portnum, &hints);
 
-    ibv::queuepair::InitAttributes init_attr;
 	memset(&init_attr, 0, sizeof init_attr);
 
 	ibv::queuepair::Capabilities cap;
