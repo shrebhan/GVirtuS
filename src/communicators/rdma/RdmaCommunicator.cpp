@@ -170,7 +170,7 @@ void RdmaCommunicator::Connect() {
 	else
 		printf("rdma_client: device doesn't support IBV_SEND_INLINE, using sge sends\n");
 
-	//qp = id->getQP();
+	auto temp = id->getQP();
 	
 	id->connect(nullptr);
   
