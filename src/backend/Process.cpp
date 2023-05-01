@@ -139,14 +139,17 @@ void Process::Start() {
 
   common::SignalState sig_hand;
   sig_hand.setup_signal_state(SIGINT);
+  LOG4CPLUS_INFO(logger, "🛈  - process started");
 
   _communicator->obj_ptr()->Serve();
+
+  LOG4CPLUS_INFO(logger, "🛈  - server is listening for requests...");
 
   int pid = 0;
   while (true) {
     Communicator *client =
         const_cast<Communicator *>(_communicator->obj_ptr()->Accept());
-    
+    LOG4CPLUS_INFO(logger, "🛈  - Connection accepted");
     client = _communicator->obj_ptr().get(); // added for rdma - accept doesn't return anything
 
     if (client != nullptr) {
