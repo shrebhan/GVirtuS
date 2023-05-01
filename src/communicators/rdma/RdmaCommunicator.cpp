@@ -125,6 +125,12 @@ void RdmaCommunicator::Serve() {
 	init_attr.setSignalAll(1);
 	auto listen_id = rdma::createEP(res, boost::none, boost::make_optional(init_attr));
 	listen_id->listen(0);
+	
+  
+}
+
+const gvirtus::communicators::Communicator *const RdmaCommunicator::Accept()
+    const {
 	id = listen_id->getRequest();
 
 	memset(&qp_attr, 0, sizeof qp_attr);
@@ -136,12 +142,6 @@ void RdmaCommunicator::Serve() {
 	else
 		printf("rdma_server: device doesn't support IBV_SEND_INLINE, "
 		       "using sge sends\n");
-  
-}
-
-const gvirtus::communicators::Communicator *const RdmaCommunicator::Accept()
-    const {
-
 	//qp = id->getQP();
 	id->accept(nullptr);
 	//return communicator
