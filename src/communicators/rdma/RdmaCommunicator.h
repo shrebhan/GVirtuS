@@ -66,10 +66,10 @@ class RdmaCommunicator : public Communicator {
 	mutable bool inlineFlag = false;
   //std::unique_ptr<ibv::memoryregion::MemoryRegion> send_mr; 
   //std::unique_ptr<ibv::memoryregion::MemoryRegion> recv_mr;
-  mutable std::unique_ptr<rdma::ID> id;
+  std::unique_ptr<rdma::ID> id;
   ibv::queuepair::QueuePair* qp;
-  std::unique_ptr<rdma::ID> listen_id;
-  mutable ibv::queuepair::InitAttributes init_attr;;
+  //std::unique_ptr<rdma::ID> listen_id;
+  //mutable ibv::queuepair::InitAttributes init_attr;;
 
 
 };
