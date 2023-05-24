@@ -84,7 +84,7 @@ void Process::Start() {
     std::shared_ptr<Buffer> input_buffer = std::make_shared<Buffer>();
 
     while (getstring(client_comm, routine)) {
-      LOG4CPLUS_DEBUG(logger, "✓ - Received routine " << routine);
+      LOG4CPLUS_INFO(logger, "✓ - Received routine " << routine);
 
       input_buffer->Reset(client_comm);
 

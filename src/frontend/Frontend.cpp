@@ -176,6 +176,7 @@ void Frontend::Execute(const char *routine, const Buffer *input_buffer) {
     auto frontend = mpFrontends->find(tid)->second;
     frontend->mRoutinesExecuted++;
     auto start = steady_clock::now();
+    cout<<"routine : "<<routine<<" is of size  = "<<strlen(routine)+1<<endl;
     frontend->_communicator->obj_ptr()->Write(routine, strlen(routine) + 1);
     frontend->mDataSent += input_buffer->GetBufferSize();
     input_buffer->Dump(frontend->_communicator->obj_ptr().get());
