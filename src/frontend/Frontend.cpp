@@ -63,6 +63,7 @@ using std::chrono::steady_clock;
 static Frontend msFrontend;
 map<pthread_t, Frontend *> *Frontend::mpFrontends = NULL;
 static bool initialized = false;
+static double total_time = 0.0;
 
 log4cplus::Logger logger;
 
@@ -181,9 +182,10 @@ void Frontend::Execute(const char *routine, const Buffer *input_buffer) {
     frontend->mDataSent += input_buffer->GetBufferSize();
     input_buffer->Dump(frontend->_communicator->obj_ptr().get());
     frontend->_communicator->obj_ptr()->Sync();
-    frontend->mSendingTime += std::chrono::duration_cast<std::chrono::microseconds>(steady_clock::now() - start)
-        .count();
-    cout<<"SendingTime = "<<frontend->mSendingTime<<" ms"<<endl;
+    double endtime = std::chrono::duration_cast<std::chrono::microseconds>(steady_clock::now() - start).count();
+    frontend->mSendingTime += endtime;
+    //cout<<"SendingTime = "<<frontend->mSendingTime<<" us"<<endl;
+    total_time += endtime;
     frontend->mpOutputBuffer->Reset();
 
     frontend->_communicator->obj_ptr()->Read((char *) &frontend->mExitCode,
@@ -191,6 +193,7 @@ void Frontend::Execute(const char *routine, const Buffer *input_buffer) {
     double time_taken;
     frontend->_communicator->obj_ptr()->Read(reinterpret_cast<char *>(&time_taken), sizeof(time_taken));
     frontend->mRoutineExecutionTime += time_taken;
+    total_time += time_taken;
 
     start = steady_clock::now();
     size_t out_buffer_size;
@@ -200,9 +203,11 @@ void Frontend::Execute(const char *routine, const Buffer *input_buffer) {
     if (out_buffer_size > 0)
       frontend->mpOutputBuffer->Read<char>(
           frontend->_communicator->obj_ptr().get(), out_buffer_size);
-    frontend->mReceivingTime += std::chrono::duration_cast<std::chrono::microseconds>(steady_clock::now() - start)
-        .count();
-    cout<<"ReceivingTime = "<<frontend->mReceivingTime<<" ms"<<endl;
+    double endtime2 = std::chrono::duration_cast<std::chrono::microseconds>(steady_clock::now() - start).count();
+    frontend->mReceivingTime += endtime2;
+    total_time += endtime2;
+    //cout<<"ReceivingTime = "<<frontend->mReceivingTime<<" us"<<endl;
+    cout<<"Time = "<<total_time<<" us"<<endl;
   } else {
     /* error */
     cerr << " ERROR - can't send any job request " << endl;
