@@ -181,7 +181,7 @@ void Frontend::Execute(const char *routine, const Buffer *input_buffer) {
     frontend->mDataSent += input_buffer->GetBufferSize();
     input_buffer->Dump(frontend->_communicator->obj_ptr().get());
     frontend->_communicator->obj_ptr()->Sync();
-    frontend->mSendingTime += std::chrono::duration_cast<std::chrono::milliseconds>(steady_clock::now() - start)
+    frontend->mSendingTime += std::chrono::duration_cast<std::chrono::microseconds>(steady_clock::now() - start)
         .count();
     cout<<"SendingTime = "<<frontend->mSendingTime<<" ms"<<endl;
     frontend->mpOutputBuffer->Reset();
@@ -200,7 +200,7 @@ void Frontend::Execute(const char *routine, const Buffer *input_buffer) {
     if (out_buffer_size > 0)
       frontend->mpOutputBuffer->Read<char>(
           frontend->_communicator->obj_ptr().get(), out_buffer_size);
-    frontend->mReceivingTime += std::chrono::duration_cast<std::chrono::milliseconds>(steady_clock::now() - start)
+    frontend->mReceivingTime += std::chrono::duration_cast<std::chrono::microseconds>(steady_clock::now() - start)
         .count();
     cout<<"ReceivingTime = "<<frontend->mReceivingTime<<" ms"<<endl;
   } else {

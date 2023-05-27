@@ -107,8 +107,9 @@ void Process::Start() {
       } else {
         auto start = steady_clock::now();
         result = h->Execute(routine, input_buffer);
-        result->TimeTaken(std::chrono::duration_cast<std::chrono::milliseconds>(steady_clock::now() - start)
-            .count() / 1000.0);
+        result->TimeTaken(std::chrono::duration_cast<std::chrono::microseconds>(steady_clock::now() - start)
+            .count());
+	cout<<"execution time = "<<result->TimeTaken()<<endl;
         // esegue la routine e salva il risultato in result
       }
 
