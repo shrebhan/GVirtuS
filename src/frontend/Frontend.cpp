@@ -185,7 +185,7 @@ void Frontend::Execute(const char *routine, const Buffer *input_buffer) {
     double endtime = std::chrono::duration_cast<std::chrono::microseconds>(steady_clock::now() - start).count();
     frontend->mSendingTime += endtime;
     //cout<<"SendingTime = "<<frontend->mSendingTime<<" us"<<endl;
-    total_time += endtime;
+    //total_time += endtime;
     frontend->mpOutputBuffer->Reset();
 
     frontend->_communicator->obj_ptr()->Read((char *) &frontend->mExitCode,
@@ -205,7 +205,7 @@ void Frontend::Execute(const char *routine, const Buffer *input_buffer) {
           frontend->_communicator->obj_ptr().get(), out_buffer_size);
     double endtime2 = std::chrono::duration_cast<std::chrono::microseconds>(steady_clock::now() - start).count();
     frontend->mReceivingTime += endtime2;
-    total_time += endtime2;
+    //total_time += endtime2;
     //cout<<"ReceivingTime = "<<frontend->mReceivingTime<<" us"<<endl;
     cout<<"Time = "<<total_time<<" us"<<endl;
   } else {
