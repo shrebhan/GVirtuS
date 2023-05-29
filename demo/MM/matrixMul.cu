@@ -130,32 +130,9 @@ int matrixMultiply(int argc, char **argv, int block_size, dim3 &dimsA, dim3 &dim
 
     // Allocate CUDA events that we'll use for timing
     cudaError_t error;
-    cudaEvent_t start;
-    error = cudaEventCreate(&start);
+    //cudaEvent_t start;
+    //error = cudaEventCreate(&start);
 
-    if (error != cudaSuccess)
-    {
-        fprintf(stderr, "Failed to create start event (error code %s)!\n", cudaGetErrorString(error));
-        exit(EXIT_FAILURE);
-    }
-
-    cudaEvent_t stop;
-    error = cudaEventCreate(&stop);
-
-    if (error != cudaSuccess)
-    {
-        fprintf(stderr, "Failed to create stop event (error code %s)!\n", cudaGetErrorString(error));
-        exit(EXIT_FAILURE);
-    }
-
-    // Record the start event
-    error = cudaEventRecord(start, NULL);
-
-    if (error != cudaSuccess)
-    {
-        fprintf(stderr, "Failed to record start event (error code %s)!\n", cudaGetErrorString(error));
-        exit(EXIT_FAILURE);
-    }
     // Allocate host memory for matrices A and B
     unsigned int size_A = dimsA.x * dimsA.y;
     unsigned int mem_size_A = sizeof(float) * size_A;
@@ -244,7 +221,7 @@ int matrixMultiply(int argc, char **argv, int block_size, dim3 &dimsA, dim3 &dim
 
     printf("done\n");
 
-    cudaDeviceSynchronize();
+    //cudaDeviceSynchronize();
 
 
     // Execute the kernel
@@ -263,7 +240,7 @@ int matrixMultiply(int argc, char **argv, int block_size, dim3 &dimsA, dim3 &dim
     }
 
     // Record the stop event
-    error = cudaEventRecord(stop, NULL);
+    //error = cudaEventRecord(stop, NULL);
 
     if (error != cudaSuccess)
     {
@@ -272,7 +249,7 @@ int matrixMultiply(int argc, char **argv, int block_size, dim3 &dimsA, dim3 &dim
     }
 
 // Wait for the stop event to complete
-    error = cudaEventSynchronize(stop);
+    //error = cudaEventSynchronize(stop);
 
     if (error != cudaSuccess)
     {
@@ -281,7 +258,7 @@ int matrixMultiply(int argc, char **argv, int block_size, dim3 &dimsA, dim3 &dim
     }
 
     float msecTotal = 0.0f;
-    error = cudaEventElapsedTime(&msecTotal, start, stop);
+    //error = cudaEventElapsedTime(&msecTotal, start, stop);
 
     if (error != cudaSuccess)
     {
@@ -406,8 +383,8 @@ int main(int argc, char **argv)
 
     int block_size = 32;
 
-    dim3 dimsA(5*64*block_size, 5*32*block_size, 1);
-    dim3 dimsB(5*32*block_size, 5*64*block_size, 1);
+    dim3 dimsA(5*64*block_size, 5*64*block_size, 1);
+    dim3 dimsB(5*64*block_size, 5*64*block_size, 1);
     
     //dim3 dimsA(5*2*block_size, 5*2*block_size, 1);
     //dim3 dimsB(5*4*block_size, 5*2*block_size, 1);
