@@ -184,6 +184,7 @@ void Frontend::Execute(const char *routine, const Buffer *input_buffer) {
     frontend->_communicator->obj_ptr()->Sync();
     double endtime = std::chrono::duration_cast<std::chrono::microseconds>(steady_clock::now() - start).count();
     frontend->mSendingTime += endtime;
+    cout<<"Data size = "<<frontend->mDataSent<<endl;
     //cout<<"SendingTime = "<<frontend->mSendingTime<<" us"<<endl;
     //total_time += endtime;
     frontend->mpOutputBuffer->Reset();
@@ -207,7 +208,7 @@ void Frontend::Execute(const char *routine, const Buffer *input_buffer) {
     frontend->mReceivingTime += endtime2;
     //total_time += endtime2;
     //cout<<"ReceivingTime = "<<frontend->mReceivingTime<<" us"<<endl;
-    cout<<"Time = "<<total_time<<" us"<<endl;
+    //cout<<"Time = "<<total_time<<" us"<<endl;
   } else {
     /* error */
     cerr << " ERROR - can't send any job request " << endl;
